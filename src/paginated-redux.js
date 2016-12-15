@@ -79,7 +79,8 @@ const paginated = (
     defaultSortBy = 'name',
     defaultPer = 10,
     defaultFilter = '',
-    defaultTotal = 0
+    defaultTotal = 0,
+    defaultSortEnabled = true
   } = {}
 ) => {
   // NOTE: the reducer's array is named "list" at this point.
@@ -95,13 +96,14 @@ const paginated = (
     page: defaultPage,
     total: defaultTotal,
     per: defaultPer,
+    sortEnabled: defaultSortEnabled,
     order: defaultSortOrder,
     by: defaultSortBy,
-    filter: defaultFilter
+    filter: defaultFilter,
   };
 
   return (state = initialState, action) => {
-    const { list, cacheList, page, total, per, order, by, filter } = state;
+    const { list, cacheList, page, total, per, sortEnabled, order, by, filter } = state;
 
     // NOTE: I'm using blocks (i.e., statments wrapped in {}) for a few
     // conditions so that I can reuse the same variable const in different
@@ -179,8 +181,9 @@ const paginated = (
 
     // Setup the default list and cache and calculate the total.
     default: {
-      const newList = reducer(state.list, action);
-      const newCache = sortedList(by, order, filteredList(filter, newList));
+      const newList  = reducer(state.list, action);
+      const newCache = sortEnabled && sortedList(by, order, filteredList(filter, newList))
+                                   || filteredList(filter, newList);
 
       return {
         ...state,

@@ -119,6 +119,9 @@ objects by a property "name" (based on the `order`) or change this to instead
 sort by their "lastModified" property (if those are properties you have in your
 user object).
 
+#### `sortEnabled`
+Disabled sorting, in case it is handled by your database. Default is `true`.
+
 ## Paginated Actions
 
 There are new actions you can execute, and define with reducer-specific names,
@@ -206,6 +209,7 @@ const paginatedUsers = paginated(users, {
   FILTER: FILTER_USERS
 }, {
   defaultPage: 1,
+  defaultSortEnabled: true,
   defaultSortOrder: 'asc',
   defaultSortBy: 'name',
   defaultPer: 10,
