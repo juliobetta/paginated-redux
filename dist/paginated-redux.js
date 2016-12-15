@@ -100,6 +100,8 @@ var paginated = function paginated(reducer) {
 
   var _ref2$defaultPage = _ref2.defaultPage;
   var defaultPage = _ref2$defaultPage === undefined ? 1 : _ref2$defaultPage;
+  var _ref2$defaultSortEnabled = _ref2.defaultSortEnabled;
+  var defaultSortEnabled = _ref2$defaultSortEnabled === undefined ? true : _ref2$defaultSortEnabled;
   var _ref2$defaultSortOrde = _ref2.defaultSortOrder;
   var defaultSortOrder = _ref2$defaultSortOrde === undefined ? 'asc' : _ref2$defaultSortOrde;
   var _ref2$defaultSortBy = _ref2.defaultSortBy;
@@ -139,6 +141,7 @@ var paginated = function paginated(reducer) {
     var order = state.order;
     var by = state.by;
     var filter = state.filter;
+    var sortEnabled = state.sortEnabled;
 
     // NOTE: I'm using blocks (i.e., statments wrapped in {}) for a few
     // conditions so that I can reuse the same variable const in different
@@ -214,7 +217,7 @@ var paginated = function paginated(reducer) {
       default:
         {
           var newList = reducer(state.list, action);
-          var _newCache2 = sortedList(by, order, filteredList(filter, newList));
+          var _newCache2 = sortEnabled && sortedList(by, order, filteredList(filter, newList)) || filteredList(filter, newList);
 
           return _extends({}, state, {
             list: newList,
